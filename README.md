@@ -10,17 +10,48 @@ This script runs everyday to re-assign everybody to a new seat.
 
 ![coworking_img](https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDd8fGRpdmVyc2UlMjB0ZWFtfGVufDB8fDB8fHwy)
 
+OpenSpace Organizer is a Python application that automatically assigns colleagues to seats in an open office space.
+
+The system:
+
+- Reads colleagues from an **Excel file**
+- Stores people as structured objects (`Colleague`)
+- Randomly assigns them to tables (`Table`)
+- Displays seating arrangements in the terminal
+- Saves results to a CSV file
+- Provides a CLI menu to inspect the workspace
+
+This project simulates a dynamic office where seating changes regularly to encourage collaboration.
+
+## Features
+
+- 📥 Load colleagues from Excel (`.xlsx`)
+- 🧾 Parse structured data:
+  - ID
+  - Name
+  - Late status
+  - Wishlist (preferred colleagues)
+  - Blacklist (avoid seating)
+- 🪑 Automatic seat assignment
+- 🏢 Configurable number of tables & capacity (`config.json`)
+- 📊 Seating visualization in terminal
+- 💾 Export results to CSV
+- 🧭 Interactive CLI menu
+
 ## 📦 Repo structure
 
 ```
 .
-├── src/
+├── utils/
 │   ├── openspace.py
 │   ├── table.py
-│   └── utils.py
+│   └── file_utils.py
+│   └── colleague.py
+├── config.json
 ├── .gitignore
 ├── main.py
 ├── new_colleagues.csv
+├── new_colleagues.xlsx
 ├── output.csv
 └── README.md
 ```
@@ -28,6 +59,15 @@ This script runs everyday to re-assign everybody to a new seat.
 ## 🛎️ Usage
 
 1. Clone the repository to your local machine.
+
+   The system uses a `config.json` file for user to edit the information of the office:
+
+   ```json
+   {
+     "NUMBER_OF_TABLES": 6,
+     "TABLE_CAPACITY": 4
+   }
+   ```
 
 2 .To run the script, you can execute the `main.py` file from your command line:
 
@@ -39,7 +79,7 @@ This script runs everyday to re-assign everybody to a new seat.
 
 ```python
 def main():
-    input_filepath = "new_colleagues.csv"
+    input_filepath = "new_colleagues.xlsx"
     output_filename = "output.csv"
 
     # Creates a list that contains all the colleagues names
@@ -60,6 +100,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+---
 
 ## ⏱️ Timeline
 

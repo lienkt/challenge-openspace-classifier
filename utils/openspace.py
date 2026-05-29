@@ -30,6 +30,11 @@ class Openspace:
 
     :param colleagues: List of Colleague objects to be placed in the space.
     """
+    late_colleagues = []
+
+    for colleague in colleagues:
+      if colleague.late:
+        late_colleagues
     for colleague in colleagues:
       table_index = self.random_free_table()
       self.tables[table_index].assign_seat(colleague.name)
@@ -45,6 +50,7 @@ class Openspace:
         i for i, table in enumerate(self.tables)
         if table.has_free_spot()
       ]
+      
       if not available_tables:
         raise Exception("No free seats available in any table.")
 
