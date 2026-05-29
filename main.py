@@ -6,19 +6,43 @@ from pathlib import Path
 from utils.file_utils import load_names
 
 def main():
+  """
+  Main entry point of the seating application.
+
+  This program:
+  - Loads configuration (tables, capacity)
+  - Loads colleagues from Excel file
+  - Builds the Openspace layout
+  - Assigns people to tables
+  - Displays results
+  - Saves output to CSV
+  - Provides a simple CLI menu
+  """
+  # ---------------------------------------
+  # Get project base directory
   # Check current working directory: os.getcwd()
+  # ---------------------------------------
   base_dir = os.path.dirname(__file__)
+
+  # Define file paths
   config_filepath = os.path.join(base_dir, "config.json")
   input_filepath = os.path.join(base_dir, "new_colleagues.xlsx")
+  
   print("Here is new_colleagues.csv file path: ")
   print(input_filepath)
   output_filepath = os.path.join(base_dir, "output.csv")
 
+  # ---------------------------------------
+  # Load configuration file
+  # ---------------------------------------
   with open(config_filepath, "r", encoding="utf-8") as f:
     config = json.load(f)
   NUMBER_OF_TABLES = config["NUMBER_OF_TABLES"]
   TABLE_CAPACITY = config["TABLE_CAPACITY"]
   
+  # ---------------------------------------
+  # Choose input file mode
+  # ---------------------------------------
   print("\n=== Choose file path to load the list of colleagues ===")
   print("1. In the project")
   print("2. Input by myself")
@@ -42,10 +66,16 @@ def main():
       
       break
     print("Valid file!")
-     
-  new_colleagues = load_names(input_filepath)
-  # print(new_colleagues)
+  
 
+  # ---------------------------------------
+  # Load colleagues from file
+  # ---------------------------------------
+  new_colleagues = load_names(input_filepath)
+
+  # ---------------------------------------
+  # Calculate required number of tables
+  # ---------------------------------------
   number_of_people = len(new_colleagues)
   amount_table_in_demand = number_of_people // TABLE_CAPACITY
   if amount_table_in_demand > NUMBER_OF_TABLES:
@@ -55,10 +85,14 @@ def main():
       NUMBER_OF_TABLES = amount_table_in_demand + 1
     print(f"The table in demand is {NUMBER_OF_TABLES}")
        
-
+  # ---------------------------------------
+  # Create tables
+  # ---------------------------------------
   tables = [Table(TABLE_CAPACITY) for _ in range(NUMBER_OF_TABLES)]
 
-  # create an OpenSpace()
+  # ---------------------------------------
+  # Create Openspace and organize seating
+  # ---------------------------------------
   open_space = Openspace(tables, NUMBER_OF_TABLES)
 
   # assign a colleague randomly to a table
@@ -67,9 +101,14 @@ def main():
   # display assignments in the terminal
   open_space.display()
 
-  # save the seat assigments to a new file
+  # ---------------------------------------
+  # Save results to CSV
+  # ---------------------------------------
   open_space.store(output_filepath)
 
+  # ---------------------------------------
+  # Simple CLI menu
+  # ---------------------------------------
   while True:
     print("\n=== ROOM MENU ===")
     print("1. How much seats are in the room")
@@ -93,16 +132,8 @@ def main():
         print("Goodbye!")
         break
            
-
+# ---------------------------------------
+# Program entry point
+# ---------------------------------------
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-
