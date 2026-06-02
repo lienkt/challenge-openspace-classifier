@@ -111,4 +111,4 @@ This project took two days for completion.
 
 This project was done as part of the AI Boocamp at BeCode.org.
 
-Connect with me on [LinkedIn](https://www.linkedin.com/in/vriveraq/).
+Connect with me on [LinkedIn](https://www.linkedin.com/in/lienkt0110/).
